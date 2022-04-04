@@ -13,5 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {API} from '../API';
 
-// Write dummy backend
+export class DummyBackend extends API {
+  name: string = 'DummyBackend';
+
+  public override download() {
+    console.log(this.name + ': downloaded');
+  }
+
+  public override install() {
+    console.log(this.name + ': installed');
+  }
+
+  public override runValueTest(): void {
+    console.log(this.name + ': runValueTest');
+  }
+}
