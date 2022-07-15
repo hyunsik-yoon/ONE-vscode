@@ -16,7 +16,8 @@
 
 import * as vscode from 'vscode';
 
-type MsgList = (number|boolean|string|object)[];
+// 'unknown' is to handle error in catch block.
+type MsgList = (number|boolean|string|object|unknown)[];
 
 const isDebugMode = process.env.VSCODE_DEBUG_MODE === 'true';
 
@@ -54,6 +55,20 @@ export class Logger {
    */
   public static error(tag: string, ...msgs: MsgList) {
     const severity = 'err';
+    Logger.log(severity, tag, ...msgs);
+  }
+
+  /**
+   * @brief Print log within catch with prefix '[time][tag][severity]' where severity = 'err'
+   * @detail Print log with error of Error type in catch statement.
+   */
+  public static errorInCatch(tag: string, error: unknown, ...msgs: MsgList) {
+    const severity = 'err';
+    if (error instanceof Error) {
+      msgs.push(error.message);
+    } else {
+      msgs.push(error);
+    }
     Logger.log(severity, tag, ...msgs);
   }
 
